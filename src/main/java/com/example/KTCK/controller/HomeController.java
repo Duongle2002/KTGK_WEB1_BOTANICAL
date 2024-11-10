@@ -20,15 +20,11 @@ public class HomeController {
         return "home3";
     }
 
-    @GetMapping("/shop")
-    public String shopPage(){
-        return "shop";
-    }
 
-    @GetMapping("/shop-detail")
-    public String shopdetailPage(){
-        return "shop-detail";
-    }
+//    @GetMapping("/shop-detail")
+//    public String shopdetailPage(){
+//        return "shop-detail";
+//    }
 
     @GetMapping("/contact-us")
     public String contactusPage(){

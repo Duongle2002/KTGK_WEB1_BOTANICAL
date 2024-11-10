@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<!-- set the encoding of your site -->
 	<meta charset="utf-8">
@@ -85,18 +85,12 @@
 										<li class="nav-item dropdown">
 											<a class="dropdown-toggle d-block" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">home</a>
 											<ul class="list-unstyled text-capitalize dropdown-menu mt-0 py-0">
-												<li class="d-block mx-0"><a href="/home">Home 1</a></li>
+												<li class="d-block mx-0"><a href="/">Home 1</a></li>
 												<li class="d-block mx-0"><a href="/home2">Home 2</a></li>
 												<li class="d-block mx-0"><a href="/home3">Home 3</a></li>
 											</ul>
 										</li>
-										<li class="nav-item dropdown">
-											<a class="dropdown-toggle d-block" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Store</a>
-											<ul class="list-unstyled text-capitalize dropdown-menu mt-0 py-0">
-												<li class="d-block mx-0"><a href="/shop">Shop Left Sidebar</a></li>
-												<li class="d-block mx-0"><a href="/shop-detail">Single Product</a></li>
-											</ul>
-										</li>
+										<li class=" nav-item "><a href="/shop">Shop Left Sidebar</a></li>
 										<li class="nav-item">
 											<a class="d-block" href="/about-us">About</a>
 										</li>
@@ -166,15 +160,15 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr class="align-items-center">
+								<tr class="align-items-center" th:each="item : ${cart.items}">
 									<td class="d-flex align-items-center border-top-0 border-bottom px-0 py-6">
 										<div class="imgHolder">
-											<img src="images/img72.jpg" alt="image description" class="img-fluid">
+											<img th:src="@{'/images/'+ ${item.product.imageUrl}}" alt="image description" class="img-fluid">
 										</div>
-										<span class="title pl-2"><a href="/shop-detail">Pellentesque aliquet</a></span>
+										<span class="title pl-2"><a th:href="@{'/shop/'+ ${item.product.id}}" th:text="${item.product.name}"></a></span>
 									</td>
-									<td class="fwEbold border-top-0 border-bottom px-0 py-6">180.00 $</td>
-									<td class="border-top-0 border-bottom px-0 py-6"><input type="number" placeholder="1"></td>
+									<td class="fwEbold border-top-0 border-bottom px-0 py-6" th:text="${item.product.price}"> $</td>
+									<td class="border-top-0 border-bottom px-0 py-6"><span th:text="${product.quantity}"></span></td>
 									<td class="fwEbold border-top-0 border-bottom px-0 py-6">180.00 $ <a href="javascript:void(0);" class="fas fa-times float-right"></a></td>
 								</tr>
 								<tr class="align-items-center">

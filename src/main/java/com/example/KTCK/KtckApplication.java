@@ -8,6 +8,8 @@ public class KtckApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(KtckApplication.class, args);
+		System.out.print("");
 	}
+
 
 }

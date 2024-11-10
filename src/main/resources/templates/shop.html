@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<!-- set the encoding of your site -->
 	<meta charset="utf-8">
@@ -85,18 +85,12 @@
 										<li class="nav-item dropdown">
 											<a class="dropdown-toggle d-block" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">home</a>
 											<ul class="list-unstyled text-capitalize dropdown-menu mt-0 py-0">
-												<li class="d-block mx-0"><a href="/home">Home 1</a></li>
+												<li class="d-block mx-0"><a href="/">Home 1</a></li>
 												<li class="d-block mx-0"><a href="/home2">Home 2</a></li>
 												<li class="d-block mx-0"><a href="/home3">Home 3</a></li>
 											</ul>
 										</li>
-										<li class="nav-item active dropdown">
-											<a class="dropdown-toggle d-block" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Store</a>
-											<ul class="list-unstyled text-capitalize dropdown-menu mt-0 py-0">
-												<li class="d-block mx-0"><a href="/shop">Shop Left Sidebar</a></li>
-												<li class="d-block mx-0"><a href="/shop-detail">Single Product</a></li>
-											</ul>
-										</li>
+										<li class="nav-item active"><a href="/shop">Shop </a></li>
 										<li class="nav-item">
 											<a class="d-block" href="/about-us">About</a>
 										</li>
@@ -178,11 +172,10 @@
 								</div>
 							</header>
 							<div class="row">
-								<!-- featureCol -->
-								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
+								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7" th:each="productPage: ${productPage}">
 									<div class="border">
 										<div class="imgHolder position-relative w-100 overflow-hidden">
-											<img src="images/img41.jpg" alt="image description" class="img-fluid w-100">
+											<img th:src="@{'/images/' + ${productPage.imageUrl}}" alt="image description" class="img-fluid w-100">
 											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
 												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
 												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>
@@ -191,230 +184,58 @@
 											</ul>
 										</div>
 										<div class="text-center py-5 px-4">
-											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>
-											<span class="price d-block fwEbold"><del>80.50 $</del>68.00 $</span>
-											<span class="hotOffer fwEbold text-uppercase text-white position-absolute d-block">HOT</span>
-											<span class="hotOffer green fwEbold text-uppercase text-white position-absolute d-block ml-8">Sale</span>
+											<span class="title d-block mb-2"><a th:href="@{'/shop/'+ ${productPage.id}}" th:text="${productPage.name}"></a></span>
+											<span class="price d-block fwEbold" th:text="${productPage.price}"> $</span>
 										</div>
 									</div>
 								</div>
-								<!-- featureCol -->
-								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
-									<div class="border">
-										<div class="imgHolder position-relative w-100 overflow-hidden">
-											<img src="images/img42.jpg" alt="image description" class="img-fluid w-100">
-											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
-												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
+
+<!--								<div class="col-12 pt-3 mb-lg-0 mb-md-6 mb-3">-->
+<!--									&lt;!&ndash; pagination &ndash;&gt;-->
+<!--									<ul class="list-unstyled pagination d-flex justify-content-center align-items-end">-->
+<!--										<li><a href="javascript:void(0);"><i class="fas fa-chevron-left"></i></a></li>-->
+<!--										<li class="active"><a href="javascript:void(0);">1</a></li>-->
+<!--										<li><a href="javascript:void(0);">2</a></li>-->
+<!--										<li>...</li>-->
+<!--										<li><a href="javascript:void(0);"><i class="fas fa-chevron-right"></i></a></li>-->
+<!--									</ul>-->
+<!--								</div>-->
+
+
+									<div class="col-12 pt-3 mb-lg-0 mb-md-6 mb-3">
+										<!-- pagination -->
+										<nav aria-label="Page navigation">
+											<ul class="pagination justify-content-center">
+												<!-- Previous Page Link -->
+												<li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+													<a class="page-link" th:href="@{/shop(page=${currentPage - 1})}" aria-label="Previous">
+														<span aria-hidden="true">&laquo;</span>
+													</a>
+												</li>
+
+												<!-- Page Numbers -->
+												<li th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+													th:classappend="${pageNum == currentPage} ? 'active'">
+													<a class="page-link" th:href="@{/shop(page=${pageNum})}" th:text="${pageNum + 1}">1</a>
+												</li>
+
+												<!-- Ellipsis for overflow -->
+												<li th:if="${totalPages > 5}">
+													<span class="page-link">...</span>
+												</li>
+
+												<!-- Next Page Link -->
+												<li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+													<a class="page-link" th:href="@{/shop(page=${currentPage + 1})}" aria-label="Next">
+														<span aria-hidden="true">&raquo;</span>
+													</a>
+												</li>
 											</ul>
-										</div>
-										<div class="text-center py-5 px-4">
-											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>
-											<span class="price d-block fwEbold">58.00 $</span>
-										</div>
+										</nav>
 									</div>
 								</div>
-								<!-- featureCol -->
-								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
-									<div class="border">
-										<div class="imgHolder position-relative w-100 overflow-hidden">
-											<img src="images/img43.jpg" alt="image description" class="img-fluid w-100">
-											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
-												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
-											</ul>
-										</div>
-										<div class="text-center py-5 px-4">
-											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>
-											<span class="price d-block fwEbold">60.00 $</span>
-											<span class="hotOffer fwEbold text-uppercase text-white position-absolute d-block">HOT</span>
-										</div>
-									</div>
-								</div>
-								<!-- featureCol -->
-								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
-									<div class="border">
-										<div class="imgHolder position-relative w-100 overflow-hidden">
-											<img src="images/img44.jpg" alt="image description" class="img-fluid w-100">
-											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
-												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
-											</ul>
-										</div>
-										<div class="text-center py-5 px-4">
-											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>
-											<span class="price d-block fwEbold"><del>80.50 $</del>68.00 $</span>
-											<span class="hotOffer green fwEbold text-uppercase text-white position-absolute d-block">Sale</span>
-										</div>
-									</div>
-								</div>
-								<!-- featureCol -->
-								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
-									<div class="border">
-										<div class="imgHolder position-relative w-100 overflow-hidden">
-											<img src="images/img45.jpg" alt="image description" class="img-fluid w-100">
-											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
-												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
-											</ul>
-										</div>
-										<div class="text-center py-5 px-4">
-											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>
-											<span class="price d-block fwEbold">58.00 $</span>
-											<span class="hotOffer green fwEbold text-uppercase text-white position-absolute d-block">Sale</span>
-										</div>
-									</div>
-								</div>
-								<!-- featureCol -->
-								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
-									<div class="border">
-										<div class="imgHolder position-relative w-100 overflow-hidden">
-											<img src="images/img46.jpg" alt="image description" class="img-fluid w-100">
-											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
-												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
-											</ul>
-										</div>
-										<div class="text-center py-5 px-4">
-											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>
-											<span class="price d-block fwEbold">60.00 $</span>
-											<span class="hotOffer fwEbold text-uppercase text-white position-absolute d-block">HOT</span>
-										</div>
-									</div>
-								</div>
-								<!-- featureCol -->
-								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
-									<div class="border">
-										<div class="imgHolder position-relative w-100 overflow-hidden">
-											<img src="images/img47.jpg" alt="image description" class="img-fluid w-100">
-											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
-												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
-											</ul>
-										</div>
-										<div class="text-center py-5 px-4">
-											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>
-											<span class="price d-block fwEbold">68.00 $</span>
-										</div>
-									</div>
-								</div>
-								<!-- featureCol -->
-								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
-									<div class="border">
-										<div class="imgHolder position-relative w-100 overflow-hidden">
-											<img src="images/img48.jpg" alt="image description" class="img-fluid w-100">
-											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
-												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
-											</ul>
-										</div>
-										<div class="text-center py-5 px-4">
-											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>
-											<span class="price d-block fwEbold">58.00 $</span>
-											<span class="hotOffer fwEbold text-uppercase text-white position-absolute d-block">Hot</span>
-										</div>
-									</div>
-								</div>
-								<!-- featureCol -->
-								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
-									<div class="border">
-										<div class="imgHolder position-relative w-100 overflow-hidden">
-											<img src="images/img49.jpg" alt="image description" class="img-fluid w-100">
-											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
-												<li class="overflow-hidden"><a href="/javascript:void(0);" class="icon-arrow d-block"></a></li>
-											</ul>
-										</div>
-										<div class="text-center py-5 px-4">
-											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>
-											<span class="price d-block fwEbold"><del>80.50 $</del>68.00 $</span>
-											<span class="hotOffer green fwEbold text-uppercase text-white position-absolute d-block">Sale</span>
-										</div>
-									</div>
-								</div>
-								<!-- featureCol -->
-								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
-									<div class="border">
-										<div class="imgHolder position-relative w-100 overflow-hidden">
-											<img src="images/img50.jpg" alt="image description" class="img-fluid w-100">
-											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
-												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
-											</ul>
-										</div>
-										<div class="text-center py-5 px-4">
-											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>
-											<span class="price d-block fwEbold"><del>80.50 $</del>68.00 $</span>
-											<span class="hotOffer green fwEbold text-uppercase text-white position-absolute d-block">Sale</span>
-										</div>
-									</div>
-								</div>
-								<!-- featureCol -->
-								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
-									<div class="border">
-										<div class="imgHolder position-relative w-100 overflow-hidden">
-											<img src="images/img51.jpg" alt="image description" class="img-fluid w-100">
-											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
-												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
-											</ul>
-										</div>
-										<div class="text-center py-5 px-4">
-											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>
-											<span class="price d-block fwEbold">58.00 $</span>
-										</div>
-									</div>
-								</div>
-								<!-- featureCol -->
-								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">
-									<div class="border">
-										<div class="imgHolder position-relative w-100 overflow-hidden">
-											<img src="images/img52.jpg" alt="image description" class="img-fluid w-100">
-											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>
-												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
-												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
-											</ul>
-										</div>
-										<div class="text-center py-5 px-4">
-											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>
-											<span class="price d-block fwEbold">58.00 $</span>
-											<span class="hotOffer fwEbold text-uppercase text-white position-absolute d-block">Hot</span>
-										</div>
-									</div>
-								</div>
-								<div class="col-12 pt-3 mb-lg-0 mb-md-6 mb-3">
-									<!-- pagination -->
-									<ul class="list-unstyled pagination d-flex justify-content-center align-items-end">
-										<li><a href="javascript:void(0);"><i class="fas fa-chevron-left"></i></a></li>
-										<li class="active"><a href="javascript:void(0);">1</a></li>
-										<li><a href="javascript:void(0);">2</a></li>
-										<li>...</li>
-										<li><a href="javascript:void(0);"><i class="fas fa-chevron-right"></i></a></li>
-									</ul>
-								</div>
-							</div>
+
+
 						</article>
 					</div>
 					<div class="col-12 col-lg-3 order-lg-1">
@@ -610,3 +431,195 @@
 	<script src="js/jqueryCustome.js"></script>
 </body>
 </html>
+
+
+
+
+<!-- featureCol -->
+<!--								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">-->
+<!--									<div class="border">-->
+<!--										<div class="imgHolder position-relative w-100 overflow-hidden">-->
+<!--											<img src="images/img43.jpg" alt="image description" class="img-fluid w-100">-->
+<!--											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>-->
+<!--												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>-->
+<!--											</ul>-->
+<!--										</div>-->
+<!--										<div class="text-center py-5 px-4">-->
+<!--											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>-->
+<!--											<span class="price d-block fwEbold">60.00 $</span>-->
+<!--											<span class="hotOffer fwEbold text-uppercase text-white position-absolute d-block">HOT</span>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								&lt;!&ndash; featureCol &ndash;&gt;-->
+<!--								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">-->
+<!--									<div class="border">-->
+<!--										<div class="imgHolder position-relative w-100 overflow-hidden">-->
+<!--											<img src="images/img44.jpg" alt="image description" class="img-fluid w-100">-->
+<!--											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>-->
+<!--												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>-->
+<!--											</ul>-->
+<!--										</div>-->
+<!--										<div class="text-center py-5 px-4">-->
+<!--											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>-->
+<!--											<span class="price d-block fwEbold"><del>80.50 $</del>68.00 $</span>-->
+<!--											<span class="hotOffer green fwEbold text-uppercase text-white position-absolute d-block">Sale</span>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								&lt;!&ndash; featureCol &ndash;&gt;-->
+<!--								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">-->
+<!--									<div class="border">-->
+<!--										<div class="imgHolder position-relative w-100 overflow-hidden">-->
+<!--											<img src="images/img45.jpg" alt="image description" class="img-fluid w-100">-->
+<!--											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>-->
+<!--												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>-->
+<!--											</ul>-->
+<!--										</div>-->
+<!--										<div class="text-center py-5 px-4">-->
+<!--											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>-->
+<!--											<span class="price d-block fwEbold">58.00 $</span>-->
+<!--											<span class="hotOffer green fwEbold text-uppercase text-white position-absolute d-block">Sale</span>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								&lt;!&ndash; featureCol &ndash;&gt;-->
+<!--								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">-->
+<!--									<div class="border">-->
+<!--										<div class="imgHolder position-relative w-100 overflow-hidden">-->
+<!--											<img src="images/img46.jpg" alt="image description" class="img-fluid w-100">-->
+<!--											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>-->
+<!--												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>-->
+<!--											</ul>-->
+<!--										</div>-->
+<!--										<div class="text-center py-5 px-4">-->
+<!--											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>-->
+<!--											<span class="price d-block fwEbold">60.00 $</span>-->
+<!--											<span class="hotOffer fwEbold text-uppercase text-white position-absolute d-block">HOT</span>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								&lt;!&ndash; featureCol &ndash;&gt;-->
+<!--								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">-->
+<!--									<div class="border">-->
+<!--										<div class="imgHolder position-relative w-100 overflow-hidden">-->
+<!--											<img src="images/img47.jpg" alt="image description" class="img-fluid w-100">-->
+<!--											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>-->
+<!--												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>-->
+<!--											</ul>-->
+<!--										</div>-->
+<!--										<div class="text-center py-5 px-4">-->
+<!--											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>-->
+<!--											<span class="price d-block fwEbold">68.00 $</span>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								&lt;!&ndash; featureCol &ndash;&gt;-->
+<!--								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">-->
+<!--									<div class="border">-->
+<!--										<div class="imgHolder position-relative w-100 overflow-hidden">-->
+<!--											<img src="images/img48.jpg" alt="image description" class="img-fluid w-100">-->
+<!--											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>-->
+<!--												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>-->
+<!--											</ul>-->
+<!--										</div>-->
+<!--										<div class="text-center py-5 px-4">-->
+<!--											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>-->
+<!--											<span class="price d-block fwEbold">58.00 $</span>-->
+<!--											<span class="hotOffer fwEbold text-uppercase text-white position-absolute d-block">Hot</span>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								&lt;!&ndash; featureCol &ndash;&gt;-->
+<!--								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">-->
+<!--									<div class="border">-->
+<!--										<div class="imgHolder position-relative w-100 overflow-hidden">-->
+<!--											<img src="images/img49.jpg" alt="image description" class="img-fluid w-100">-->
+<!--											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>-->
+<!--												<li class="overflow-hidden"><a href="/javascript:void(0);" class="icon-arrow d-block"></a></li>-->
+<!--											</ul>-->
+<!--										</div>-->
+<!--										<div class="text-center py-5 px-4">-->
+<!--											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>-->
+<!--											<span class="price d-block fwEbold"><del>80.50 $</del>68.00 $</span>-->
+<!--											<span class="hotOffer green fwEbold text-uppercase text-white position-absolute d-block">Sale</span>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								&lt;!&ndash; featureCol &ndash;&gt;-->
+<!--								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">-->
+<!--									<div class="border">-->
+<!--										<div class="imgHolder position-relative w-100 overflow-hidden">-->
+<!--											<img src="images/img50.jpg" alt="image description" class="img-fluid w-100">-->
+<!--											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>-->
+<!--												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>-->
+<!--											</ul>-->
+<!--										</div>-->
+<!--										<div class="text-center py-5 px-4">-->
+<!--											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>-->
+<!--											<span class="price d-block fwEbold"><del>80.50 $</del>68.00 $</span>-->
+<!--											<span class="hotOffer green fwEbold text-uppercase text-white position-absolute d-block">Sale</span>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								&lt;!&ndash; featureCol &ndash;&gt;-->
+<!--								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">-->
+<!--									<div class="border">-->
+<!--										<div class="imgHolder position-relative w-100 overflow-hidden">-->
+<!--											<img src="images/img51.jpg" alt="image description" class="img-fluid w-100">-->
+<!--											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>-->
+<!--												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>-->
+<!--											</ul>-->
+<!--										</div>-->
+<!--										<div class="text-center py-5 px-4">-->
+<!--											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>-->
+<!--											<span class="price d-block fwEbold">58.00 $</span>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								&lt;!&ndash; featureCol &ndash;&gt;-->
+<!--								<div class="col-12 col-sm-6 col-lg-4 featureCol mb-7">-->
+<!--									<div class="border">-->
+<!--										<div class="imgHolder position-relative w-100 overflow-hidden">-->
+<!--											<img src="images/img52.jpg" alt="image description" class="img-fluid w-100">-->
+<!--											<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>-->
+<!--												<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>-->
+<!--												<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>-->
+<!--											</ul>-->
+<!--										</div>-->
+<!--										<div class="text-center py-5 px-4">-->
+<!--											<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>-->
+<!--											<span class="price d-block fwEbold">58.00 $</span>-->
+<!--											<span class="hotOffer fwEbold text-uppercase text-white position-absolute d-block">Hot</span>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
