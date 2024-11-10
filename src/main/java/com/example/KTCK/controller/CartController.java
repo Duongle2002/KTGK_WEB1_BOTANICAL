@@ -18,7 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.Optional;
 
 @Controller
-public  class CartController {
+public class CartController {
+
     @Autowired
     private ProductService productService;
     @Autowired
@@ -39,6 +40,15 @@ public  class CartController {
         Products product = productService.getProductById(productId).orElse(null);
 
         if (product != null) {
+            // Lấy cartId từ session
+            Long cartId = (Long) session.getAttribute("cartId");
+
+            // Nếu chưa có cartId trong session, tạo mới giỏ hàng
+            if (cartId == null) {
+                cartId = cartService.createCartForUser(session.getId()); // Tạo mới giỏ hàng nếu chưa có
+                session.setAttribute("cartId", cartId);
+            }
+
             // Kiểm tra nếu sản phẩm đã có trong giỏ hàng
             Optional<CartItem> existingCartItem = cartItemRepository.findByProductAndColorAndSize(product, color, size);
 
@@ -50,12 +60,7 @@ public  class CartController {
                 redirectAttributes.addFlashAttribute("message", "Đã cập nhật số lượng sản phẩm trong giỏ hàng!");
             } else {
                 // Nếu chưa có, thêm sản phẩm mới vào giỏ hàng
-                CartItem cartItem = new CartItem();
-                cartItem.setProduct(product);
-                cartItem.setColor(color);
-                cartItem.setSize(size);
-                cartItem.setQuantity(quantity);
-                cartItemRepository.save(cartItem);
+                cartService.addToCart(cartId, product, color, size, quantity, session.getId());
                 redirectAttributes.addFlashAttribute("message", "Thêm sản phẩm vào giỏ hàng thành công!");
             }
         } else {
@@ -65,13 +70,27 @@ public  class CartController {
         // Quay về trang chi tiết sản phẩm với thông báo
         return "redirect:/shop/" + productId;
     }
-    @GetMapping("/shop/cart")
-    public String viewCart(Model model) {
-        Long cartId = 1L; // Giả sử cartId của người dùng, có thể lấy từ session nếu cần
+
+
+
+    @GetMapping("/shop/cart-page")
+    public String viewCart(Model model, HttpSession session) {
+        // Lấy cartId từ session
+        Long cartId = (Long) session.getAttribute("cartId");
+
+        // Nếu không có cartId, tạo mới giỏ hàng
+        if (cartId == null) {
+            cartId = cartService.createCartForUser(session.getId()); // Tạo mới giỏ hàng
+            session.setAttribute("cartId", cartId); // Lưu cartId vào session
+        }
+
+        // Lấy giỏ hàng từ service
         Cart cart = cartService.getCartById(cartId);
+
+        // Thêm giỏ hàng vào model để hiển thị trên view
         model.addAttribute("cart", cart);
+
+        // Trả về trang giỏ hàng
         return "cart-page";
     }
-}
-
-
+} 
