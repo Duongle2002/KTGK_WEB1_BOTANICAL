@@ -144,10 +144,10 @@
 				</div>
 				<div class="row">
 					<!-- featureCol -->
-					<div class="col-12 col-sm-6 col-lg-3 featureCol position-relative mb-6">
+					<div class="col-12 col-sm-6 col-lg-3 featureCol position-relative mb-6" th:each="productPage: ${productPage}">
 						<div class="border">
 							<div class="imgHolder position-relative w-100 overflow-hidden">
-								<img src="images/img17.jpg" alt="image description" class="img-fluid w-100">
+								<img th:src="${productPage.imageUrl}" alt="image description" class="img-fluid w-100">
 								<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
 									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
 									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>
@@ -155,68 +155,85 @@
 									<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
 								</ul>
 							</div>
-							<div class="text-center py-xl-5 py-sm-4 py-2 px-xl-2 px-1">
-								<span class="title d-block mb-2"><a href="/shop-detail">Sit voluptatem</a></span>
-								<span class="price d-block fwEbold">68.00 $</span>
+							<div class="text-center py-5 px-4">
+								<span class="title d-block mb-2"><a th:href="@{'/shop/'+ ${productPage.id}}" th:text="${productPage.name}"></a></span>
+								<span class="price d-block fwEbold" th:text="${productPage.price}"> $</span>
 							</div>
 						</div>
 					</div>
+<!--					<div class="col-12 col-sm-6 col-lg-3 featureCol position-relative mb-6">-->
+<!--						<div class="border">-->
+<!--							<div class="imgHolder position-relative w-100 overflow-hidden">-->
+<!--								<img src="images/img17.jpg" alt="image description" class="img-fluid w-100">-->
+<!--								<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">-->
+<!--									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>-->
+<!--									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>-->
+<!--									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>-->
+<!--									<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>-->
+<!--								</ul>-->
+<!--							</div>-->
+<!--							<div class="text-center py-xl-5 py-sm-4 py-2 px-xl-2 px-1">-->
+<!--								<span class="title d-block mb-2"><a href="/shop-detail">Sit voluptatem</a></span>-->
+<!--								<span class="price d-block fwEbold">68.00 $</span>-->
+<!--							</div>-->
+<!--						</div>-->
+<!--					</div>-->
 					<!-- featureCol -->
-					<div class="col-12 col-sm-6 col-lg-3 featureCol mb-6">
-						<div class="border">
-							<div class="imgHolder position-relative w-100 overflow-hidden">
-								<img src="images/img18.jpg" alt="image description" class="img-fluid w-100">
-								<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
-									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
-									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>
-									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
-									<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
-								</ul>
-							</div>
-							<div class="text-center py-xl-5 py-sm-4 py-2 px-xl-2 px-1">
-								<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>
-								<span class="price d-block fwEbold">58.00 $</span>
-							</div>
-						</div>
-					</div>
+<!--					<div class="col-12 col-sm-6 col-lg-3 featureCol mb-6">-->
+<!--						<div class="border">-->
+<!--							<div class="imgHolder position-relative w-100 overflow-hidden">-->
+<!--								<img src="images/img18.jpg" alt="image description" class="img-fluid w-100">-->
+<!--								<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">-->
+<!--									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>-->
+<!--									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>-->
+<!--									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>-->
+<!--									<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>-->
+<!--								</ul>-->
+<!--							</div>-->
+<!--							<div class="text-center py-xl-5 py-sm-4 py-2 px-xl-2 px-1">-->
+<!--								<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>-->
+<!--								<span class="price d-block fwEbold">58.00 $</span>-->
+<!--							</div>-->
+<!--						</div>-->
+<!--					</div>-->
 					<!-- featureCol -->
-					<div class="col-12 col-sm-6 col-lg-3 featureCol position-relative mb-6">
-						<div class="border">
-							<div class="imgHolder position-relative w-100 overflow-hidden">
-								<img src="images/img19.jpg" alt="image description" class="img-fluid w-100">
-								<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
-									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
-									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>
-									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
-									<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
-								</ul>
-							</div>
-							<div class="text-center py-xl-5 py-sm-4 py-2 px-xl-2 px-1">
-								<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>
-								<span class="price d-block fwEbold">60.00 $</span>
-								<span class="hotOffer fwEbold text-uppercase text-white position-absolute d-block">Hot</span>
-							</div>
-						</div>
-					</div>
+<!--					<div class="col-12 col-sm-6 col-lg-3 featureCol position-relative mb-6">-->
+<!--						<div class="border">-->
+<!--							<div class="imgHolder position-relative w-100 overflow-hidden">-->
+<!--								<img src="images/img19.jpg" alt="image description" class="img-fluid w-100">-->
+<!--								<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">-->
+<!--									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>-->
+<!--									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>-->
+<!--									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>-->
+<!--									<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>-->
+<!--								</ul>-->
+<!--							</div>-->
+<!--							<div class="text-center py-xl-5 py-sm-4 py-2 px-xl-2 px-1">-->
+<!--								<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>-->
+<!--								<span class="price d-block fwEbold">60.00 $</span>-->
+<!--								<span class="hotOffer fwEbold text-uppercase text-white position-absolute d-block">Hot</span>-->
+<!--							</div>-->
+<!--						</div>-->
+<!--					</div>-->
 					<!-- featureCol -->
-					<div class="col-12 col-sm-6 col-lg-3 featureCol position-relative mb-6">
-						<div class="border">
-							<div class="imgHolder position-relative w-100 overflow-hidden">
-								<img src="images/img20.jpg" alt="image description" class="img-fluid w-100">
-								<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
-									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>
-									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>
-									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>
-									<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
-								</ul>
-							</div>
-							<div class="text-center py-xl-5 py-sm-4 py-2 px-xl-2 px-1">
-								<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>
-								<span class="price d-block fwEbold"><del>80.50 $</del>65.00 $</span>
-								<span class="hotOffer green fwEbold text-uppercase text-white position-absolute d-block">Sale</span>
-							</div>
-						</div>
-					</div>
+<!--					<div class="col-12 col-sm-6 col-lg-3 featureCol position-relative mb-6">-->
+<!--						<div class="border">-->
+<!--							<div class="imgHolder position-relative w-100 overflow-hidden">-->
+<!--								<img src="images/img20.jpg" alt="image description" class="img-fluid w-100">-->
+<!--								<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">-->
+<!--									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-heart d-block"></a></li>-->
+<!--									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-cart d-block"></a></li>-->
+<!--									<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" class="icon-eye d-block"></a></li>-->
+<!--									<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>-->
+<!--								</ul>-->
+<!--							</div>-->
+<!--							<div class="text-center py-xl-5 py-sm-4 py-2 px-xl-2 px-1">-->
+<!--								<span class="title d-block mb-2"><a href="/shop-detail">Pellentesque aliquet</a></span>-->
+<!--								<span class="price d-block fwEbold"><del>80.50 $</del>65.00 $</span>-->
+<!--								<span class="hotOffer green fwEbold text-uppercase text-white position-absolute d-block">Sale</span>-->
+<!--							</div>-->
+<!--						</div>-->
+<!--					</div>-->
 				</div>
 			</section>
 			<!-- categorySecBlock -->
