@@ -19,10 +19,6 @@ public class HomeController {
         this.productService = productService;
     }
 
-    @GetMapping("/")
-    public String homePage(){
-        return "home";
-    }
     @GetMapping("/home2")
     public String home2Page(@RequestParam(defaultValue = "0") int page, Model model){
         int size = 4; // Number of products per page
