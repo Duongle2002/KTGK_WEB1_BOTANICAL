@@ -11,4 +11,10 @@ public interface UserService {
     User findUserByEmail(String email);
 
     List<UserDto> findAllUsers();
+
+    User findUserById(Long id);
+
+    void updateUser(Long id, UserDto userDto);
+    
+    void deleteUserById(Long id);
 }

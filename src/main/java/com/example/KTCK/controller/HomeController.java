@@ -42,10 +42,7 @@ public class HomeController {
     public String contactusPage(){
         return "contact-us";
     }
-    @GetMapping("/cart-page")
-    public String cartpagePage(){
-        return "cart-page";
-    }
+
     @GetMapping("/blog-detail")
     public String blogdetail(){
         return "blog-detail";

@@ -23,4 +23,12 @@ public class UserDto
     private String email;
     @NotEmpty(message = "Password should not be empty")
     private String password;
+    private String role;
+
+    public String getRole(){
+        return role;
+    }
+    public void setRole(String role){
+        this.role = role;
+    }
 }

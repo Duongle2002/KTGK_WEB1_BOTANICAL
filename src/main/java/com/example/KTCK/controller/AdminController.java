@@ -18,6 +18,11 @@ public class AdminController {
     @Autowired
     private ProductService productService;
 
+
+    @GetMapping("/home")
+    public String adminHome() {
+        return "admin/admin";
+    }
     @GetMapping
     public String viewAllProducts(Model model) {
         model.addAttribute("products", productService.getAllProducts());

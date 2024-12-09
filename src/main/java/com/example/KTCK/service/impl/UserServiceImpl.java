@@ -29,20 +29,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(UserDto userDto) {
-        User user = new User();
-        user.setName(userDto.getFirstName() + " " + userDto.getLastName());
-        user.setEmail(userDto.getEmail());
-        // encrypt the password using spring security
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+public void saveUser(UserDto userDto) {
+    User user = new User();
+    user.setName(userDto.getFirstName() + " " + userDto.getLastName());
+    user.setEmail(userDto.getEmail());
+    // Mã hóa mật khẩu
+    user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        Role role = roleRepository.findByName("ROLE_ADMIN");
-        if(role == null){
-            role = checkRoleExist();
-        }
-        user.setRoles(Arrays.asList(role));
-        userRepository.save(user);
+    // Lấy vai trò từ DTO hoặc mặc định là ROLE_USER
+    String roleName = userDto.getRole() != null ? userDto.getRole() : "ROLE_USER";
+    Role role = roleRepository.findByName(roleName);
+
+    // Nếu role chưa tồn tại, tạo role mới
+    if (role == null) {
+        role = new Role();
+        role.setName(roleName);
+        roleRepository.save(role);
     }
+
+    // Gán vai trò cho người dùng
+    user.setRoles(Arrays.asList(role));
+
+    // Lưu người dùng vào cơ sở dữ liệu
+    userRepository.save(user);
+}
 
     @Override
     public User findUserByEmail(String email) {
@@ -71,4 +81,26 @@ public class UserServiceImpl implements UserService {
         role.setName("ROLE_ADMIN");
         return roleRepository.save(role);
     }
+
+    @Override
+    public User findUserById(Long id) {
+        return userRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
+    }
+
+    @Override
+    public void updateUser(Long id, UserDto userDto) {
+        User user = userRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
+
+        user.setName(userDto.getFirstName() + " " + userDto.getLastName());
+        user.setEmail(userDto.getEmail());
+        userRepository.save(user);
+    }
+
+    @Override
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
+    }
+
 }
