@@ -10,6 +10,4 @@ public class KtckApplication {
 		SpringApplication.run(KtckApplication.class, args);
 		System.out.print("");
 	}
-
-
 }
