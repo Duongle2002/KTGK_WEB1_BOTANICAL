@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- set the encoding of your site -->
+    <meta charset="utf-8">
+    <!-- set the Compatible of your site -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- set the page title -->
+    <title>Botanical - HTML5 Ecommerce Template</title>
+    <!-- include the site Google Fonts stylesheet -->
+    <!-- Include Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700%7CRoboto:300,400,500,700,900&display=swap" rel="stylesheet">
+    <!-- Include CSS Stylesheets -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/fontawesome.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/plugins.css}">
+    <link rel="stylesheet" th:href="@{/css/color.css}">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+</head>
+<body>
+<!-- pageWrapper -->
+<div id="pageWrapper">
+    <!-- header -->
+    <div th:replace="fragments/header :: header"></div>
+    <!-- main -->
+    <main>
+        <div class="container text-center">
+            <h1>Thông tin người dùng</h1>
+            <p><strong>Họ và tên:</strong> <span th:text="${user.name}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+            <a href="/logout">Đăng xuất</a>  <!-- Để người dùng có thể đăng xuất -->
+        </div>
+    </main>
+    <div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

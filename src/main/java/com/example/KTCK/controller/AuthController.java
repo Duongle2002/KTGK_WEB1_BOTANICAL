@@ -65,7 +65,7 @@ public class AuthController {
         model.addAttribute("users", users);
         return "admin/users";
     }
-    @GetMapping("/info")
+    @GetMapping("/user_info")
 public String userInfo(Model model) {
     Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     String email;
@@ -80,7 +80,7 @@ public String userInfo(Model model) {
     User user = userService.findUserByEmail(email);
     model.addAttribute("user", user);
 
-    return "admin/user_info"; // Hiển thị trang thông tin người dùng
+    return "user_info"; // Hiển thị trang thông tin người dùng
 }
     @GetMapping("/login")
     public String login(){

@@ -33,7 +33,7 @@ public class SpringSecurity {
                                 .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**", "/fonts/**").permitAll()
                                 .requestMatchers("/register/**","/", "/shop", "/blog-detail" , "/blog" ,"/about-us","/contact-us","/api/products/**").permitAll() // Cho phép truy cập /shop và /shop/{id}
                                 .requestMatchers("/shop/cart-page", "/shop/cart/**", "/shop/cart/add").authenticated()
-                                .requestMatchers("/users","/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/users","/admin/**","/swagger-ui/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
